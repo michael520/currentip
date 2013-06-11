@@ -8,9 +8,8 @@ import smtplib
 
 Config = ConfigParser.ConfigParser()
 currentpath = os.path.dirname(os.path.realpath(__file__))
-ini_file = os.path.join(currentpath,'base_setting.py')
+ini_file = os.path.join(currentpath,'base_setting.ini')
 Config.read(ini_file)
-
 ipchecker = 'http://checkip.dyndns.org/'
 email = Config.get('baseinfo','notify_to_email')
 
@@ -25,7 +24,7 @@ def touch_file(file_name,workdir):
         return 'new file(ip changed)'
 
 def clear_out_put(out_put):
-    return re.sub('<[^<]+?>|[Current IP Check]|[Current IP Address:]|\s','',out_put) 
+    return re.sub('<[^<]+?>|[Current IP Check]|[Current IP Address:]|\s','',out_put)
 
 def notify(email,msg):
     server = Config.get('smtplogin','server')
@@ -61,6 +60,6 @@ def getmyip():
     return clear_out_put(buf.getvalue())
     buf.close()
 
-real_ip = getmyip() 
+real_ip = getmyip()
 print real_ip
 print touch_file(real_ip,currentpath)
