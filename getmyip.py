@@ -1,14 +1,20 @@
 #!/usr/bin/python
+import ConfigParser
 import pycurl
 import re
 import cStringIO
 import os
 import smtplib
 
-ipchecker = 'http://checkip.dyndns.org/'
-email = 'youremail@here.com'
+Config = ConfigParser.ConfigParser()
+currentpath = os.path.dirname(os.path.realpath(__file__))
+ini_file = os.path.join(currentpath,'base_setting.py')
+Config.read(ini_file)
 
-def touch_file(file_name):
+ipchecker = 'http://checkip.dyndns.org/'
+email = Config.get('baseinfo','notify_to_email')
+
+def touch_file(file_name,workdir):
     if os.path.exists(file_name):
         os.utime(file_name, None)
         return 'old file (ip no change)'
@@ -22,10 +28,10 @@ def clear_out_put(out_put):
     return re.sub('<[^<]+?>|[Current IP Check]|[Current IP Address:]|\s','',out_put) 
 
 def notify(email,msg):
-    server = 'smtp.gmail.com'
-    port = 587
+    server = Config.get('smtplogin','server')
+    port = Config.get('smtplogin','port')
 
-    sender = 'ipchecker@localhost'
+    sender = Config.get('baseinfo','sender')
     recipient = email
     subject = 'IP has Changed'
     body = msg
@@ -41,7 +47,7 @@ def notify(email,msg):
     session.ehlo()
     session.starttls()
     session.ehlo
-    session.login('your@gmail', 'YourGmailPassword')
+    session.login(Config.get('smtplogin','name'), Config.get('smtplogin','password'))
 
     session.sendmail(sender, recipient, headers + "\r\n\r\n" + body)
     session.quit()
@@ -57,4 +63,4 @@ def getmyip():
 
 real_ip = getmyip() 
 print real_ip
-print touch_file(real_ip)
+print touch_file(real_ip,currentpath)
