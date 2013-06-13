@@ -14,11 +14,12 @@ ipchecker = 'http://checkip.dyndns.org/'
 email = Config.get('baseinfo','notify_to_email')
 
 def touch_file(file_name,workdir):
-    if os.path.exists(file_name):
-        os.utime(file_name, None)
+    fullpath = os.path.join(workdir,'IPs',file_name)
+    if os.path.exists(fullpath):
+        os.utime(fullpath, None)
         return 'old file (ip no change)'
     else:
-        open(file_name,'a').close()
+        open(fullpath,'a').close()
         msg = 'new IP :' + file_name
         notify(email,msg)
         return 'new file(ip changed)'
