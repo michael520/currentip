@@ -46,7 +46,7 @@ def notify(email,msg):
     session = smtplib.SMTP(server, port)
     session.ehlo()
     session.starttls()
-    session.ehlo
+    session.ehlo()
     session.login(Config.get('smtplogin','name'), Config.get('smtplogin','password'))
 
     session.sendmail(sender, recipient, headers + "\r\n\r\n" + body)
