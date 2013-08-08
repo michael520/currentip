@@ -1,5 +1,5 @@
  Ussage :  
- Copy the sample_setting to base_setting.ini  
+ Rename the sample_setting to base_setting.ini ex: mv sample_setting base_setting.ini 
  Set the script to crontab .  
  crontab -e  
  input this command :  
