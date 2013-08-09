@@ -3,6 +3,7 @@
  Set the script to crontab .  
  crontab -e  
  input this command :  
-		'*/30 * * * *	python /home/to/myhom/scriptdir/getmyip.py'   
+		*/30 * * * *	python /home/to/myhom/scriptdir/getmyip.py 
+ admire the stars with a 'tab' 
 
 
